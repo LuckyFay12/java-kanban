@@ -14,9 +14,9 @@ public class Main {
         taskManager.createTask (task1);
         Task task2 = new Task("Уборка", "Пропылесосить, вытереть пыль", TaskStatus.IN_PROGRESS);
         taskManager.createTask (task2);
-        Epic epic1 = new Epic("Лекции", "Послушать лекции", TaskStatus.NEW);
+        Epic epic1 = new Epic("Лекции", "Послушать лекции");
         taskManager.createEpic(epic1);
-        Epic epic2 = new Epic("Рыбки", "Покормить рыбок", TaskStatus.NEW);
+        Epic epic2 = new Epic("Рыбки", "Покормить рыбок");
         taskManager.createEpic(epic2);
         SubTask subTask1 = new SubTask("История", "Послушать лекции", TaskStatus.NEW, epic1.getId());
         taskManager.createSubTask(subTask1, epic1);
@@ -37,34 +37,20 @@ public class Main {
         taskManager.deleteAllTasks();
         System.out.println("Очистить список задач: " + taskManager.findAllTasks());
 
-        System.out.println( "Вывести список эпиков: " + taskManager.findAllEpics());
-        System.out.println("Вывести список всех подзадач эпика 'Лекции': " + taskManager.getSubTasksByEpic(epic1));
+        System.out.println("Вывести список эпиков: " + taskManager.findAllEpics());
+        System.out.println("Вывести список id всех подзадач эпика 'Лекции': " + taskManager.getSubTasksByEpicById(epic1.getId()));
         System.out.println("Вывести эпик 'Рыбки' по id " + taskManager.findEpicById(epic2.getId()));
-        System.out.println("Вывести список всех подзадач: " + taskManager.findAllSubTasks());
         System.out.println("Вывести подзадачу 'История' по id " + taskManager.findSubTaskById(subTask1.getId()));
 
         subTask3.setDescription("Корм куплен");
         subTask3.setStatus(TaskStatus.DONE);
         System.out.println("Обновить подзадачу 'Корм для рыб'" + taskManager.updateSubTask(subTask3));
         System.out.println("Вывести эпик 'Рыбки' по id " + taskManager.findEpicById(epic2.getId()));
+
+
         taskManager.deleteEpic(epic2.getId());
         System.out.println("Удалить эпик 'Рыбки'. Эпик удален. Список эпиков: " + taskManager.findAllEpics());
         System.out.println("Вывести список всех подзадач: " + taskManager.findAllSubTasks());
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 }

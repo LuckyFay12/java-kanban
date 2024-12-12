@@ -28,12 +28,12 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return id == task.id && Objects.equals(name, task.name) && Objects.equals(description, task.description) && status == task.status;
+        return id == task.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hashCode(id);
     }
 
     public String getDescription() {
@@ -59,6 +59,7 @@ public class Task {
     public void setName(String name) {
         this.name = name;
     }
+
     public TaskStatus getStatus() {
         return status;
     }
@@ -66,6 +67,4 @@ public class Task {
     public void setStatus(TaskStatus status) {
         this.status = status;
     }
-
-
 }
