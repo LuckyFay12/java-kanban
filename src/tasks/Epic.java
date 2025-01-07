@@ -11,6 +11,10 @@ public class Epic extends Task {
         super(name, description, TaskStatus.NEW);
     }
 
+    public Epic(String name, String description, TaskStatus status) {
+        super(name, description, status);
+    }
+
     @Override
     public String toString() {
         return "Epic{" +
@@ -26,17 +30,9 @@ public class Epic extends Task {
         return SubTasksId;
     }
 
-    public void setSubtasks(List<Integer> SubTasksId) {
-        this.SubTasksId = SubTasksId;
-    }
+    public void addSubTask(SubTask subTask) { SubTasksId.add(subTask.getId()); }
 
-    public void addSubTask(SubTask subTask) {
-        SubTasksId.add(subTask.getId());
-    }
-
-    public void delSubTask(Integer subTaskID) {
-        SubTasksId.remove(subTaskID);
-    }
+    public void delSubTask(Integer subTaskID) { SubTasksId.remove(subTaskID); }
 }
 
 
