@@ -1,4 +1,4 @@
-package taskManager;
+package manager;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +10,6 @@ import tasks.TaskStatus;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
 class InMemoryTaskManagerTest {
 
     private TaskManager taskManager;

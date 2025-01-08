@@ -1,7 +1,6 @@
-package taskManager;
+package manager;
 import tasks.Task;
-import tasks.Epic;
-import tasks.SubTask;
+
 import java.util.List;
 
 public interface HistoryManager {
