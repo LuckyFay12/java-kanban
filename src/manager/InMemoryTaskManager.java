@@ -18,7 +18,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     private HistoryManager historyManager;
 
-    public InMemoryTaskManager(HistoryManager historyManager){
+    public InMemoryTaskManager(HistoryManager historyManager) {
         this.historyManager = historyManager;
     }
 
@@ -196,7 +196,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public SubTask findSubTaskById(Integer id) {
         SubTask subTask = subTaskMap.get(id);
-        if(subTask != null) {
+        if (subTask != null) {
             historyManager.addToHistory(subTask);
         }
         return subTask;
