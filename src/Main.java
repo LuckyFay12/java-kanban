@@ -10,9 +10,9 @@ public class Main {
     public static void main(String[] args) {
         TaskManager taskManager = Managers.getDefault();
         Task task1 = new Task("Магазин", "Купить продукты по списку", TaskStatus.NEW);
-        taskManager.createTask (task1);
+        taskManager.createTask(task1);
         Task task2 = new Task("Уборка", "Пропылесосить, вытереть пыль", TaskStatus.IN_PROGRESS);
-        taskManager.createTask (task2);
+        taskManager.createTask(task2);
         Epic epic1 = new Epic("Лекции", "Послушать лекции");
         taskManager.createEpic(epic1);
         Epic epic2 = new Epic("Рыбки", "Покормить рыбок");
