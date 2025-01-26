@@ -21,41 +21,35 @@ public class Main {
         taskManager.createSubTask(subTask1, epic1);
         SubTask subTask2 = new SubTask("Физика", "Сделать конспект", TaskStatus.IN_PROGRESS, epic1.getId());
         taskManager.createSubTask(subTask2, epic1);
-        SubTask subTask3 = new SubTask("Корм для рыб", "Купить корм для рыб", TaskStatus.NEW, epic2.getId());
-        taskManager.createSubTask(subTask3, epic2);
+        SubTask subTask3 = new SubTask("Философия", "Сделать конспект", TaskStatus.IN_PROGRESS, epic1.getId());
+        taskManager.createSubTask(subTask3, epic1);
 
-        System.out.println("Вывести список задач: " + taskManager.findAllTasks());
-        System.out.println("Вывести задачу 'Магазин' по id: " + taskManager.findTaskById(task1.getId()));
-
-        task1.setName("Новый магазин");
-        task1.setStatus(TaskStatus.DONE);
-
-        System.out.println("Обновить задачу 'Магазин'" + taskManager.updateTask(task1));
-        System.out.println("Вывести задачу 'Магазин' по id: " + taskManager.findTaskById(task1.getId()));
-        System.out.println("Удалить задачу 'Магазин' " + taskManager.deleteTask(task1.getId()));
-        System.out.println("Задача удалена. Текущие задачи: " + taskManager.findAllTasks());
-        taskManager.deleteAllTasks();
-        System.out.println("Очистить список задач: " + taskManager.findAllTasks());
-
-        System.out.println("Вывести список эпиков: " + taskManager.findAllEpics());
-        System.out.println("Вывести список id всех подзадач эпика 'Лекции': " + taskManager.getSubTasksByEpicById(epic1.getId()));
-        System.out.println("Вывести эпик 'Рыбки' по id " + taskManager.findEpicById(epic2.getId()));
-        System.out.println("Вывести подзадачу 'История' по id " + taskManager.findSubTaskById(subTask1.getId()));
-
-        subTask3.setDescription("Корм куплен");
-        subTask3.setStatus(TaskStatus.DONE);
-        System.out.println("Обновить подзадачу 'Корм для рыб'" + taskManager.updateSubTask(subTask3));
-        System.out.println("Вывести эпик 'Рыбки' по id " + taskManager.findEpicById(epic2.getId()));
-
-        System.out.println("История:" + taskManager.getHistory());
-        System.out.println("Добавляем просмотры еще 6 эпиков и подзадач.");
-        taskManager.findEpicById(epic2.getId());
-        taskManager.findEpicById(epic2.getId());
-        taskManager.findEpicById(epic2.getId());
+        taskManager.findTaskById(task1.getId());
+        taskManager.findTaskById(task2.getId());
+        taskManager.findEpicById(epic1.getId());
         taskManager.findEpicById(epic2.getId());
         taskManager.findSubTaskById(subTask1.getId());
+        taskManager.findSubTaskById(subTask2.getId());
+        taskManager.findSubTaskById(subTask3.getId());
+        System.out.println("История просмотров:" + taskManager.getHistory());
+
         taskManager.findSubTaskById(subTask1.getId());
-        System.out.println("История:" + taskManager.getHistory());
+        taskManager.findSubTaskById(subTask2.getId());
+        taskManager.findSubTaskById(subTask3.getId());
+        taskManager.findTaskById(task1.getId());
+        taskManager.findTaskById(task2.getId());
+        taskManager.findEpicById(epic1.getId());
+        taskManager.findEpicById(epic2.getId());
+        System.out.println("История просмотров:" + taskManager.getHistory());
+
+        taskManager.findSubTaskById(subTask1.getId());
+        System.out.println("История просмотров:" + taskManager.getHistory());
+
+        taskManager.deleteTask(task2.getId());
+        System.out.println("История просмотров:" + taskManager.getHistory());
+
+        taskManager.deleteEpic(epic1.getId());
+        System.out.println("История просмотров:" + taskManager.getHistory());
 
     }
 }
