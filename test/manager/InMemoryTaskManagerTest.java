@@ -104,7 +104,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void listOfHistoryShouldNotExceedTenElements() {
+    void historyListShouldNotExceedContainRepeatedTasks() {
         Task task = new Task("Магазин", "Купить хлеба", TaskStatus.NEW);
         Epic epic = new Epic("Елка", "Нарядить елку");
         SubTask subTask = new SubTask("Игрушки", "Купить игрушки на елку", TaskStatus.NEW, epic.getId());
@@ -118,16 +118,9 @@ class InMemoryTaskManagerTest {
         taskManager.findTaskById(task.getId());
         taskManager.findEpicById(epic.getId());
         taskManager.findSubTaskById(subTask.getId());
-        taskManager.findTaskById(task.getId());
-        taskManager.findEpicById(epic.getId());
-        taskManager.findSubTaskById(subTask.getId());
-        taskManager.findTaskById(task.getId());
-        taskManager.findEpicById(epic.getId());
-        taskManager.findSubTaskById(subTask.getId());
         ArrayList<Task> history = new ArrayList<>(taskManager.getHistory());
 
-        Assertions.assertNotNull(history);
-        Assertions.assertEquals(10, history.size());
+        Assertions.assertEquals(3, history.size());
     }
 
     @Test
@@ -292,18 +285,5 @@ class InMemoryTaskManagerTest {
         ArrayList<SubTask> subTasks = new ArrayList<>(taskManager.findAllSubTasks());
         ArrayList<Integer> subTasksIdByEpic = new ArrayList<>(taskManager.getSubTasksByEpicById(epic.getId()));
         Assertions.assertEquals(subTasks.size(), subTasksIdByEpic.size());
-    }
-
-    @Test
-    void taskInHistoryListShouldNotBeUpdatedAfterTaskUpdate() {
-        Task task = new Task("Магазин", "Купить хлеба", TaskStatus.NEW);
-        taskManager.createTask(task);
-        taskManager.findTaskById(task.getId());
-        Task taskInHistory = taskManager.getHistory().get(0);
-        TaskStatus statusInHistoryBeforerUpdate = taskInHistory.getStatus();
-        task.setStatus(TaskStatus.DONE);
-        taskManager.updateTask(task);
-        Task taskInHistoryAfterUpdate = taskManager.getHistory().get(0);
-        Assertions.assertEquals(statusInHistoryBeforerUpdate, taskInHistoryAfterUpdate.getStatus());
     }
 }

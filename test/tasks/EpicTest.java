@@ -22,7 +22,7 @@ class EpicTest {
 
     @Test
     void testToString() {
-        String expected = "Epic{id=0, name=Уборка, SubTasksId=[], description=Помыть пол, status=NEW}";
+        String expected = "Epic{id=0, name=Уборка, subTasksId=[], description=Генеральная уборка, status=NEW}";
         String actually = epic.toString();
         Assertions.assertEquals(expected, actually);
     }
