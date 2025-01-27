@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    Node first;
-    Node last;
-    Map<Integer, Node> idToNode = new HashMap<>();
+    private Node first;
+    private Node last;
+    private final Map<Integer, Node> idToNode = new HashMap<>();
 
     private static class Node {
-        Node previous;
-        Task value;
-        Node next;
+        public Node previous;
+        public Task value;
+        public Node next;
 
         public Node(Node previous, Task value, Node next) {
             this.previous = previous;
@@ -59,7 +59,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         Node newNode = new Node(null, task, null);
         linkLast(newNode);
         idToNode.put(task.getId(), newNode);
-       }
+    }
 
 
     @Override
