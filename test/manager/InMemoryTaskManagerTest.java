@@ -70,7 +70,7 @@ class InMemoryTaskManagerTest {
     void testFindTaskById() {
         Task task1 = new Task("Магазин", "Купить хлеба", TaskStatus.NEW);
         taskManager.createTask(task1);
-        Assertions.assertEquals (taskManager.findTaskById(task1.getId()), task1);
+        Assertions.assertEquals(taskManager.findTaskById(task1.getId()), task1);
     }
 
     @Test
@@ -130,14 +130,14 @@ class InMemoryTaskManagerTest {
         taskManager.createTask(task1);
         taskManager.createTask(task2);
         taskManager.deleteAllTasks();
-        Assertions.assertTrue (taskManager.findAllTasks().isEmpty());
+        Assertions.assertTrue(taskManager.findAllTasks().isEmpty());
     }
 
     @Test
     void testCreateEpic() {
         String description = "Нарядить елку";
         String name = "Елка";
-        Epic epic = new Epic(name,description);
+        Epic epic = new Epic(name, description);
         taskManager.createEpic(epic);
         Epic actualEpic = taskManager.findEpicById(epic.getId());
         Assertions.assertNotNull(actualEpic.getId());
@@ -170,7 +170,7 @@ class InMemoryTaskManagerTest {
     void testFindEpicById() {
         Epic epic = new Epic("Елка", "Нарядить елку");
         taskManager.createEpic(epic);
-        Assertions.assertEquals (taskManager.findEpicById(epic.getId()), epic);
+        Assertions.assertEquals(taskManager.findEpicById(epic.getId()), epic);
     }
 
     @Test
@@ -216,8 +216,8 @@ class InMemoryTaskManagerTest {
         taskManager.createEpic(epic);
         String description = "Купить игрушки на елку";
         String name = "Игрушки";
-        SubTask subTask = new SubTask (name,description,TaskStatus.NEW, epic.getId());
-        taskManager.createSubTask(subTask,epic);
+        SubTask subTask = new SubTask(name, description, TaskStatus.NEW, epic.getId());
+        taskManager.createSubTask(subTask, epic);
         SubTask actualSubTask = taskManager.findSubTaskById(subTask.getId());
         Assertions.assertNotNull(actualSubTask.getId());
         Assertions.assertEquals(actualSubTask.getEpicId(), epic.getId());
@@ -240,11 +240,11 @@ class InMemoryTaskManagerTest {
     @Test
     void testFindAllSubTasks() {
         Epic epic = new Epic("Елка", "Нарядить елку");
-        SubTask subTask1 = new SubTask ("Игрушки","Купить игрушки на елку",TaskStatus.IN_PROGRESS, epic.getId());
-        SubTask subTask2 = new SubTask ("Кот","Закрыть в комнате, чтобы не мешался",TaskStatus.NEW, epic.getId());
+        SubTask subTask1 = new SubTask("Игрушки", "Купить игрушки на елку", TaskStatus.IN_PROGRESS, epic.getId());
+        SubTask subTask2 = new SubTask("Кот", "Закрыть в комнате, чтобы не мешался", TaskStatus.NEW, epic.getId());
         taskManager.createEpic(epic);
-        taskManager.createSubTask(subTask1,epic);
-        taskManager.createSubTask(subTask2,epic);
+        taskManager.createSubTask(subTask1, epic);
+        taskManager.createSubTask(subTask2, epic);
         ArrayList<Task> subTasks = new ArrayList<>(taskManager.findAllSubTasks());
         Assertions.assertTrue(subTasks.size() == 2);
     }
@@ -253,19 +253,19 @@ class InMemoryTaskManagerTest {
     void testFindSubTaskById() {
         Epic epic = new Epic("Елка", "Нарядить елку");
         taskManager.createEpic(epic);
-        SubTask subTask = new SubTask ("Игрушки","Купить игрушки на елку",TaskStatus.IN_PROGRESS, epic.getId());
+        SubTask subTask = new SubTask("Игрушки", "Купить игрушки на елку", TaskStatus.IN_PROGRESS, epic.getId());
         taskManager.createSubTask(subTask, epic);
-        Assertions.assertEquals (taskManager.findEpicById(epic.getId()), epic);
+        Assertions.assertEquals(taskManager.findEpicById(epic.getId()), epic);
     }
 
     @Test
     void testDeleteSubTaskById() {
         Epic epic = new Epic("Елка", "Нарядить елку");
-        SubTask subTask1 = new SubTask ("Игрушки","Купить игрушки на елку",TaskStatus.IN_PROGRESS, epic.getId());
-        SubTask subTask2 = new SubTask ("Кот","Закрыть в комнате, чтобы не мешался",TaskStatus.NEW, epic.getId());
+        SubTask subTask1 = new SubTask("Игрушки", "Купить игрушки на елку", TaskStatus.IN_PROGRESS, epic.getId());
+        SubTask subTask2 = new SubTask("Кот", "Закрыть в комнате, чтобы не мешался", TaskStatus.NEW, epic.getId());
         taskManager.createEpic(epic);
-        taskManager.createSubTask(subTask1,epic);
-        taskManager.createSubTask(subTask2,epic);
+        taskManager.createSubTask(subTask1, epic);
+        taskManager.createSubTask(subTask2, epic);
         ArrayList<SubTask> subTasksBeforeDelete = new ArrayList<>(taskManager.findAllSubTasks());
         taskManager.deleteSubTaskById(subTask2.getId());
         ArrayList<SubTask> subTasksAfterDelete = new ArrayList<>(taskManager.findAllSubTasks());
@@ -277,11 +277,11 @@ class InMemoryTaskManagerTest {
     @Test
     void testGetSubTasksByEpicById() {
         Epic epic = new Epic("Елка", "Нарядить елку");
-        SubTask subTask1 = new SubTask ("Игрушки","Купить игрушки на елку",TaskStatus.IN_PROGRESS, epic.getId());
-        SubTask subTask2 = new SubTask ("Кот","Закрыть в комнате, чтобы не мешался",TaskStatus.NEW, epic.getId());
+        SubTask subTask1 = new SubTask("Игрушки", "Купить игрушки на елку", TaskStatus.IN_PROGRESS, epic.getId());
+        SubTask subTask2 = new SubTask("Кот", "Закрыть в комнате, чтобы не мешался", TaskStatus.NEW, epic.getId());
         taskManager.createEpic(epic);
-        taskManager.createSubTask(subTask1,epic);
-        taskManager.createSubTask(subTask2,epic);
+        taskManager.createSubTask(subTask1, epic);
+        taskManager.createSubTask(subTask2, epic);
         ArrayList<SubTask> subTasks = new ArrayList<>(taskManager.findAllSubTasks());
         ArrayList<Integer> subTasksIdByEpic = new ArrayList<>(taskManager.getSubTasksByEpicById(epic.getId()));
         Assertions.assertEquals(subTasks.size(), subTasksIdByEpic.size());
