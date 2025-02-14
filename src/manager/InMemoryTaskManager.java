@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
-    private Map<Integer, Task> taskMap = new HashMap<>();
-    private Map<Integer, Epic> epicMap = new HashMap<>();
-    private Map<Integer, SubTask> subTaskMap = new HashMap<>();
-    private int counter = 0;
+    protected Map<Integer, Task> taskMap = new HashMap<>();
+    protected Map<Integer, Epic> epicMap = new HashMap<>();
+    protected Map<Integer, SubTask> subTaskMap = new HashMap<>();
+    protected int counter = 0;
 
     private HistoryManager historyManager;
 

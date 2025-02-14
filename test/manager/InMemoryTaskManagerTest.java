@@ -8,6 +8,7 @@ import tasks.SubTask;
 import tasks.Task;
 import tasks.TaskStatus;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 class InMemoryTaskManagerTest {
@@ -20,7 +21,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void testCreateTask() {
+    void testCreateTask() throws IOException {
         String description = "Почистить зубы";
         String name = "Гигиена";
         Task task = new Task(name, description, TaskStatus.NEW);
