@@ -1,16 +1,26 @@
 package tasks;
+
 import java.util.Objects;
 
 public class Task {
     private int id;
     private String name;
     private String description;
-    private TaskStatus status;
+    protected TaskStatus status;
+    private TaskType taskType;
 
     public Task(String name, String description, TaskStatus status) {
         this.name = name;
         this.description = description;
         this.status = status;
+    }
+
+    public Task(int id, TaskType taskType, String name, TaskStatus status, String description) {
+        this.id = id;
+        this.taskType = taskType;
+        this.name = name;
+        this.status = status;
+        this.description = description;
     }
 
     @Override
@@ -66,5 +76,9 @@ public class Task {
 
     public void setStatus(TaskStatus status) {
         this.status = status;
+    }
+
+    public TaskType getTaskType() {
+        return taskType;
     }
 }
