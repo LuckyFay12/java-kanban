@@ -30,6 +30,11 @@ public class Epic extends Task {
                 '}';
     }
 
+    @Override
+    public TaskType getTaskType() {
+        return TaskType.EPIC;
+    }
+
     public List<Integer> getSubtasks() {
         return subTasksId;
     }

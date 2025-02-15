@@ -4,6 +4,7 @@ import exceptions.ManagerFileInitializationException;
 import exceptions.ManagerSaveException;
 import tasks.*;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -38,9 +39,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     if (task.getId() > maxId) {
                         maxId = task.getId(); // Обновляем максимальный ID
                     }
-                    if (task instanceof Epic) {
+                    if (task.getTaskType() == TaskType.EPIC) {
                         fileBackedTaskManager.epicMap.put(task.getId(), (Epic) task);
-                    } else if (task instanceof SubTask) {
+                    } else if (task.getTaskType() == TaskType.SUBTASK) {
                         fileBackedTaskManager.subTaskMap.put(task.getId(), (SubTask) task);
                     } else {
                         fileBackedTaskManager.taskMap.put(task.getId(), task);
@@ -200,15 +201,15 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     private void save() {
-        try (FileWriter fr = new FileWriter(data)) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(data))) {
             for (Task task : taskMap.values()) {
-                fr.write(taskToString(task) + "\n");
+                writer.write(taskToString(task) + "\n");
             }
             for (Epic epic : epicMap.values()) {
-                fr.write(taskToString(epic) + "\n");
+                writer.write(taskToString(epic) + "\n");
             }
             for (SubTask subTask : subTaskMap.values()) {
-                fr.write(taskToString(subTask) + "\n");
+                writer.write(taskToString(subTask) + "\n");
             }
         } catch (IOException e) {
             String errorMessage = "Ошибка при сохранении в файл: " + e.getMessage();
@@ -218,13 +219,25 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     private String taskToString(Task task) {
-        return String.join(",",
-                Integer.toString(task.getId()),
-                task.getTaskType().toString(),
-                task.getName(),
-                task.getStatus().toString(),
-                task.getDescription(),
-                task instanceof SubTask ? Integer.toString(((SubTask) task).getEpicId()) : ""
-        );
+        String str;
+        if (task.getTaskType() == TaskType.SUBTASK) {
+            str = String.join(",",
+                    Integer.toString(task.getId()),
+                    task.getTaskType().toString(),
+                    task.getName(),
+                    task.getStatus().toString(),
+                    task.getDescription(),
+                    Integer.toString(((SubTask) task).getEpicId())
+            );
+        } else {
+            str = String.join(",",
+                    Integer.toString(task.getId()),
+                    task.getTaskType().toString(),
+                    task.getName(),
+                    task.getStatus().toString(),
+                    task.getDescription()
+            );
+        }
+        return str;
     }
 }

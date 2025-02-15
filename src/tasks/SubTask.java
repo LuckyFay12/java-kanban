@@ -30,5 +30,10 @@ public class SubTask extends Task {
                 ", status=" + getStatus() +
                 '}';
     }
+
+    @Override
+    public TaskType getTaskType() {
+        return TaskType.SUBTASK;
+    }
 }
 
