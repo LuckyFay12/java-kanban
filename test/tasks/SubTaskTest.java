@@ -34,7 +34,7 @@ class SubTaskTest {
 
     @Test
     void testToString() {
-        String expected = "SubTask{id=0, name=Кот, description=Покормить кота, status=IN_PROGRESS, taskType=TASK, duration=60, startTime=03.02.2025 18:00, endTime=03.02.2025 19:00, epicId=2}";
+        String expected = "SubTask{id=0, name=Кот, description=Покормить кота, status=IN_PROGRESS, taskType=SUBTASK, duration=60, startTime=03.02.2025 18:00, endTime=03.02.2025 19:00, epicId=2}";
         String actually = subTask.toString();
         Assertions.assertEquals(expected, actually);
     }
