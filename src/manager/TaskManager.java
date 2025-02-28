@@ -9,6 +9,8 @@ import java.util.List;
 public interface TaskManager {
     Task createTask(Task task);
 
+    List<Task> getPrioritizedTasks();
+
     Task updateTask(Task task);
 
     Task deleteTask(Integer id);
@@ -44,6 +46,4 @@ public interface TaskManager {
     SubTask findSubTaskById(Integer id);
 
     void deleteSubTaskById(Integer id);
-
-    List<Integer> getSubTasksByEpicById(Integer epicId);
 }
