@@ -55,9 +55,9 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
     @Test
     void testCreateSubTask() throws IOException {
         FileBackedTaskManager manager = new FileBackedTaskManager(new InMemoryHistoryManager(), testFile);
-        Epic epic = new Epic(1, TaskType.EPIC, "Уборка", TaskStatus.NEW, "Помыть пол", Duration.ofMinutes(0), null);
+        Epic epic = new Epic(1, "Уборка", TaskStatus.NEW, "Помыть пол", Duration.ofMinutes(0), null);
         manager.createEpic(epic);
-        SubTask subTask = new SubTask(2, TaskType.SUBTASK, "Пыть", TaskStatus.NEW, "Вытереть пыль", Duration.ofMinutes(45), LocalDateTime.of(2025, 01, 02, 15, 15), 1);
+        SubTask subTask = new SubTask(2, "Пыть", TaskStatus.NEW, "Вытереть пыль", Duration.ofMinutes(45), LocalDateTime.of(2025, 01, 02, 15, 15), 1);
         manager.createSubTask(subTask, epic);
         List<String> fileContent = Files.readAllLines(testFile.toPath());
         assertEquals(2, fileContent.size(), "Файл должен содержать две строки.");

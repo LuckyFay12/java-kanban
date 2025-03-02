@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
-    protected Map<Integer, Task> taskMap = new HashMap<>();
-    protected Map<Integer, Epic> epicMap = new HashMap<>();
-    protected Map<Integer, SubTask> subTaskMap = new HashMap<>();
+    protected final Map<Integer, Task> taskMap = new HashMap<>();
+    protected final Map<Integer, Epic> epicMap = new HashMap<>();
+    protected final Map<Integer, SubTask> subTaskMap = new HashMap<>();
     protected int counter = 0;
-    protected TreeSet<Task> prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
+    protected final Set<Task> prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
 
     private HistoryManager historyManager;
 
@@ -30,7 +30,6 @@ public class InMemoryTaskManager implements TaskManager {
     private boolean isStatus(List<SubTask> subtasks, TaskStatus status) {
         return subtasks.stream()
                 .allMatch(subTask -> subTask.getStatus().equals(status));
-
     }
 
     private void refreshStatusEpic(Epic epic) {
@@ -79,26 +78,23 @@ public class InMemoryTaskManager implements TaskManager {
         return new ArrayList<>(prioritizedTasks);
     }
 
-    private boolean hasInteractions(Task newTask) {
+    private void checkHasInteractions(Task newTask) throws CollisionTaskTimeException {
         List<Task> prioritizedTasks = getPrioritizedTasks();
-        if (newTask.getStartTime() == null || newTask.getEndTime() == null) {
-            return false;
-        }
-        return prioritizedTasks.stream()
+        boolean hasCollision = prioritizedTasks.stream()
                 .filter(t -> t.getStartTime() != null && t.getEndTime() != null)
                 .anyMatch(t -> newTask.getStartTime().isBefore(t.getEndTime()) && t.getStartTime().isBefore(newTask.getEndTime()));
+        if (hasCollision) {
+            throw new CollisionTaskTimeException("Данная задача пересекается по времени с другой задачей");
+        }
     }
 
     @Override
     public Task createTask(Task task) {
+        checkHasInteractions(task);
+        prioritizedTasks.add(task);
         int newId = nextId();
         task.setId(newId);
         taskMap.put(task.getId(), task);
-        if (!(hasInteractions(task) == true)) {
-            prioritizedTasks.add(task);
-        } else {
-            throw new CollisionTaskTimeException("Данная задача пересекается по времени с другой задачей");
-        }
         return task;
     }
 
@@ -107,17 +103,13 @@ public class InMemoryTaskManager implements TaskManager {
         if (taskMap.containsKey(task.getId())) {
             prioritizedTasks.remove(task);
             Task availableTask = taskMap.get(task.getId());
-            prioritizedTasks.remove(availableTask);
             availableTask.setName(task.getName());
             availableTask.setDescription(task.getDescription());
             availableTask.setStatus(task.getStatus());
             availableTask.setDuration(task.getDuration());
             availableTask.setStartTime(task.getStartTime());
-            if (!(hasInteractions(availableTask) == true)) {
-                prioritizedTasks.add(availableTask);
-            } else {
-                throw new CollisionTaskTimeException("Данная задача пересекается по времени с другой задачей");
-            }
+            checkHasInteractions(availableTask);
+            prioritizedTasks.add(availableTask);
             return availableTask;
         }
         return null;
@@ -223,16 +215,13 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public SubTask createSubTask(SubTask subTask, Epic epic) {
+        checkHasInteractions(subTask);
+        prioritizedTasks.add(subTask);
         int newId = nextId();
         epic.getSubtasks().add(newId);
         subTask.setId(newId);
         subTaskMap.put(subTask.getId(), subTask);
         refreshStatusEpic(epic);
-        if (!(hasInteractions(subTask) == true)) {
-            prioritizedTasks.add(subTask);
-        } else {
-            throw new CollisionTaskTimeException("Данная задача пересекается по времени с другой задачей");
-        }
         return subTask;
     }
 
@@ -244,13 +233,12 @@ public class InMemoryTaskManager implements TaskManager {
             availableSubTask.setName(subTask.getName());
             availableSubTask.setDescription(subTask.getDescription());
             availableSubTask.setStatus(subTask.getStatus());
+            availableSubTask.setDuration(subTask.getDuration());
+            availableSubTask.setStartTime(subTask.getStartTime());
             Epic epic = epicMap.get(subTask.getEpicId());
             refreshStatusEpic(epic);
-            if (!(hasInteractions(availableSubTask) == true)) {
-                prioritizedTasks.add(availableSubTask);
-            } else {
-                throw new CollisionTaskTimeException("Данная задача пересекается по времени с другой задачей");
-            }
+            checkHasInteractions(availableSubTask);
+            prioritizedTasks.add(availableSubTask);
             return availableSubTask;
         }
         return null;

@@ -9,11 +9,10 @@ public class SubTask extends Task {
     public SubTask(String name, String description, TaskStatus status, Duration duration, LocalDateTime startTime, int epicId) {
         super(name, description, status, duration, startTime);
         this.epicId = epicId;
-        this.taskType = TaskType.SUBTASK;
     }
 
-    public SubTask(int id, TaskType taskType, String name, TaskStatus status, String description, Duration duration, LocalDateTime startTime, int epicId) {
-        super(id, TaskType.SUBTASK, name, status, description, duration, startTime);
+    public SubTask(int id, String name, TaskStatus status, String description, Duration duration, LocalDateTime startTime, int epicId) {
+        super(id, name, status, description, duration, startTime);
         this.epicId = epicId;
     }
 
@@ -32,7 +31,7 @@ public class SubTask extends Task {
                 ", name=" + getName() +
                 ", description=" + getDescription() +
                 ", status=" + getStatus() +
-                ", taskType=" + taskType +
+                ", taskType=" + getTaskType() +
                 ", duration=" + duration.toMinutes() +
                 ", startTime=" + startTime.format(formatter) +
                 ", endTime=" + getEndTime().format(formatter) +

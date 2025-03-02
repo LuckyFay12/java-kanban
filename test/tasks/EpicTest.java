@@ -19,7 +19,7 @@ class EpicTest {
     @BeforeEach
     public void init() {
         LocalDateTime endTime = LocalDateTime.of(2025, 02, 04, 18, 0).plus(Duration.ofMinutes(15));
-        epic = new Epic(0, TaskType.EPIC, "Лекции", TaskStatus.NEW, "Послушать лекции", Duration.ofMinutes(15), LocalDateTime.of(2025, 02, 04, 18, 0), endTime);
+        epic = new Epic(0, "Лекции", TaskStatus.NEW, "Послушать лекции", Duration.ofMinutes(15), LocalDateTime.of(2025, 02, 04, 18, 0), endTime);
         subTask1 = new SubTask("Пол", "Помыть пол", TaskStatus.NEW, Duration.ofMinutes(60), LocalDateTime.of(2025, 02, 03, 18, 0), epic.getId());
         subTask2 = new SubTask("Пыль", "Вытереть пыль", TaskStatus.NEW, Duration.ofMinutes(60), LocalDateTime.of(2025, 02, 03, 16, 0), epic.getId());
     }

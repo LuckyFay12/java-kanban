@@ -10,7 +10,6 @@ public class Task {
     private String name;
     private String description;
     protected TaskStatus status;
-    protected TaskType taskType;
     protected Duration duration;
     protected LocalDateTime startTime;
 
@@ -22,12 +21,10 @@ public class Task {
         this.status = status;
         this.duration = duration;
         this.startTime = startTime;
-        this.taskType = TaskType.TASK;
     }
 
-    public Task(int id, TaskType taskType, String name, TaskStatus status, String description, Duration duration, LocalDateTime startTime) {
+    public Task(int id, String name, TaskStatus status, String description, Duration duration, LocalDateTime startTime) {
         this.id = id;
-        this.taskType = taskType;
         this.name = name;
         this.status = status;
         this.description = description;
@@ -42,7 +39,7 @@ public class Task {
                 ", id=" + id +
                 ", name='" + name + '\'' +
                 ", status=" + status +
-                ", taskType=" + taskType +
+                ", taskType=" + getTaskType() +
                 ", duration=" + duration.toMinutes() +
                 ", startTime=" + startTime.format(formatter) +
                 ", endTime=" + getEndTime().format(formatter) +

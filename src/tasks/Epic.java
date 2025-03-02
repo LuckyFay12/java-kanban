@@ -12,15 +12,14 @@ public class Epic extends Task {
 
     public Epic(String name, String description) {
         super(name, description, TaskStatus.NEW, Duration.ofMinutes(0), null);
-        this.taskType = TaskType.EPIC;
     }
 
-    public Epic(int id, TaskType taskType, String name, TaskStatus status, String description, Duration duration, LocalDateTime startTime) {
-        super(id, TaskType.EPIC, name, TaskStatus.NEW, description, duration, startTime);
+    public Epic(int id, String name, TaskStatus status, String description, Duration duration, LocalDateTime startTime) {
+        super(id, name, TaskStatus.NEW, description, duration, startTime);
     }
 
-    public Epic(int id, TaskType taskType, String name, TaskStatus status, String description, Duration duration, LocalDateTime startTime, LocalDateTime endTime) {
-        super(id, TaskType.EPIC, name, TaskStatus.NEW, description, duration, startTime);
+    public Epic(int id, String name, TaskStatus status, String description, Duration duration, LocalDateTime startTime, LocalDateTime endTime) {
+        super(id, name, TaskStatus.NEW, description, duration, startTime);
         this.endTime = endTime;
     }
 
@@ -32,7 +31,7 @@ public class Epic extends Task {
                 ", subTasksId=" + subTasksId +
                 ", description=" + getDescription() +
                 ", status=" + getStatus() +
-                ", taskType=" + taskType +
+                ", taskType=" + getTaskType() +
                 ", duration=" + duration.toMinutes() +
                 ", startTime=" + startTime.format(formatter) +
                 ", endTime=" + endTime.format(formatter) +
