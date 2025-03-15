@@ -36,7 +36,7 @@ public class Task {
         return "Task{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                "description='" + description + '\'' +
+                ", description='" + description + '\'' +
                 ", status=" + status +
                 ", taskType=" + getTaskType() +
                 ", duration=" + duration.toMinutes() +

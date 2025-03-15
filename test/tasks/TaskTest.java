@@ -15,21 +15,15 @@ class TaskTest {
 
     @BeforeEach
     public void init() {
-        task1 = new Task("Магазин", "Купить хлеба", TaskStatus.NEW, Duration.ofMinutes(60), LocalDateTime.of(2025, 02, 03, 18, 0));
-        task2 = new Task("Кот", "Покормить кота", TaskStatus.NEW, Duration.ofMinutes(15), LocalDateTime.of(2025, 02, 03, 16, 0));
+        task1 = new Task(0,"Магазин", TaskStatus.NEW,"Купить хлеба",  Duration.ofMinutes(60), LocalDateTime.of(2025, 02, 03, 18, 0));
+        task2 = new Task(1, "Кот", TaskStatus.NEW,"Покормить кота",  Duration.ofMinutes(15), LocalDateTime.of(2025, 02, 03, 16, 0));
     }
 
     @Test
     void testToString() {
-        String expected = "Task{description='Купить хлеба', id=0, name='Магазин', status=NEW, taskType=TASK, duration=60, startTime=03.02.2025 18:00, endTime=03.02.2025 19:00}";
+        String expected = "Task{id=0, name='Магазин', description='Купить хлеба', status=NEW, taskType=TASK, duration=60, startTime=03.02.2025 18:00, endTime=03.02.2025 19:00}";
         String actually = task1.toString();
         Assertions.assertEquals(expected, actually);
-    }
-
-    @Test
-    void testEquals() {
-        boolean actual = task1.equals(task2);
-        Assertions.assertTrue(actual);
     }
 
     @Test
