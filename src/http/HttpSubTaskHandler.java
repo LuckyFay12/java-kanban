@@ -3,7 +3,6 @@ package http;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import exceptions.CollisionTaskTimeException;
-import exceptions.ErrorResponse;
 import exceptions.TaskNotFoundException;
 import manager.TaskManager;
 import tasks.Epic;
@@ -62,8 +61,8 @@ public class HttpSubTaskHandler extends BaseHttpHandler {
             String idStr = urlParts[2];
             if (isInteger(idStr)) {
                 Integer id = Integer.valueOf(idStr);
-                Task SubTaskById = taskManager.findSubTaskById(id);
-                String json = jsonMapper.toJson(SubTaskById);
+                Task subTaskById = taskManager.findSubTaskById(id);
+                String json = jsonMapper.toJson(subTaskById);
                 sendText(exchange, json, 200);
             } else {
                 System.out.println("Введите целое число");
