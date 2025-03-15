@@ -16,7 +16,6 @@ public class DurationAdapter extends TypeAdapter<Duration> {
             return;
         }
         jsonWriter.value(duration.toMinutes());
-       // jsonWriter.value(Long.toString(duration.toMinutes()));
     }
 
     @Override
