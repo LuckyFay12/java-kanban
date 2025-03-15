@@ -1,5 +1,6 @@
 package manager;
 
+import exceptions.TaskNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import tasks.Epic;
@@ -10,6 +11,8 @@ import tasks.TaskStatus;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class InMemoryHistoryManagerTest {
     TaskManager taskManager = new InMemoryTaskManager(new InMemoryHistoryManager());
@@ -38,8 +41,10 @@ public class InMemoryHistoryManagerTest {
         taskManager.createEpic(epic);
         taskManager.deleteEpic(epic.getId());
         taskManager.deleteTask(task.getId());
-        taskManager.findTaskById(task.getId());
-        taskManager.findEpicById(epic.getId());
+
+        assertThrows(TaskNotFoundException.class, () -> taskManager.findTaskById(task.getId()));
+        assertThrows(TaskNotFoundException.class, () -> taskManager.findEpicById(epic.getId()));
+
         ArrayList<Task> history = new ArrayList<>(taskManager.getHistory());
         Assertions.assertTrue(history.isEmpty());
     }
@@ -47,11 +52,10 @@ public class InMemoryHistoryManagerTest {
     @Test
     void historyListShouldNotExceedContainRepeatedTasks() {
         Task task = new Task("Магазин", "Купить хлеба", TaskStatus.NEW, Duration.ofMinutes(30), LocalDateTime.of(2025, 02, 03, 15, 0));
-        Epic epic = new Epic("Елка", "Нарядить елку");
-        SubTask subTask = new SubTask("Игрушки", "Купить игрушки на елку", TaskStatus.NEW, Duration.ofMinutes(30), LocalDateTime.of(2025, 01, 03, 15, 0), epic.getId());
-
-        taskManager.createEpic(epic);
         taskManager.createTask(task);
+        Epic epic = new Epic("Елка", "Нарядить елку");
+        taskManager.createEpic(epic);
+        SubTask subTask = new SubTask("Игрушки", "Купить игрушки на елку", TaskStatus.NEW, Duration.ofMinutes(30), LocalDateTime.of(2025, 01, 03, 15, 0), epic.getId());
         taskManager.createSubTask(subTask, epic);
         taskManager.findTaskById(task.getId());
         taskManager.findEpicById(epic.getId());

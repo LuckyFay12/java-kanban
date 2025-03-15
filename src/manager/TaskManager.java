@@ -45,5 +45,7 @@ public interface TaskManager {
 
     SubTask findSubTaskById(Integer id);
 
-    void deleteSubTaskById(Integer id);
+    SubTask deleteSubTaskById(Integer id);
+
+    List<SubTask> getListSubTasksByEpic(Integer epicId);
 }

@@ -2,6 +2,7 @@ package tasks;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class SubTask extends Task {
     private int epicId;
@@ -11,21 +12,22 @@ public class SubTask extends Task {
         this.epicId = epicId;
     }
 
-    public SubTask(int id, String name, TaskStatus status, String description, Duration duration, LocalDateTime startTime, int epicId) {
+    public SubTask(Integer id, String name, TaskStatus status, String description, Duration duration, LocalDateTime startTime, int epicId) {
         super(id, name, status, description, duration, startTime);
         this.epicId = epicId;
     }
 
-    public Integer getEpicId() {
+    public int getEpicId() {
         return epicId;
     }
 
-    public void setEpicId(Integer epicId) {
+    public void setEpicId(int epicId) {
         this.epicId = epicId;
     }
 
     @Override
     public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
         return "SubTask{" +
                 "id=" + getId() +
                 ", name=" + getName() +

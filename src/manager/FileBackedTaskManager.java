@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
@@ -60,6 +61,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     private static Task fromString(String line) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
         String[] str = line.split(",");
         int id = Integer.parseInt(str[0]);
         TaskType taskType = TaskType.valueOf(str[1]);
@@ -67,7 +69,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         TaskStatus taskStatus = TaskStatus.valueOf(str[3]);
         String description = str[4];
         Duration duration = str[5].isEmpty() ? null : Duration.ofMinutes(Long.parseLong(str[5]));
-        LocalDateTime startTime = str[6].isEmpty() ? null : LocalDateTime.parse(str[6], Task.formatter);
+        LocalDateTime startTime = str[6].isEmpty() ? null : LocalDateTime.parse(str[6], formatter);
         switch (taskType) {
             case TASK:
                 return new Task(id, name, taskStatus, description, duration, startTime);
@@ -129,9 +131,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void deleteSubTaskById(Integer id) {
-        super.deleteSubTaskById(id);
+    public SubTask deleteSubTaskById(Integer id) {
+        SubTask deletedSubTask = super.deleteSubTaskById(id);
         save();
+        return deletedSubTask;
     }
 
     @Override
@@ -219,9 +222,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     private String taskToString(Task task) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
         String str;
         String durationStr = task.getDuration() != null ? task.getDuration().toString() : "";
-        String startTimeStr = task.getStartTime() != null ? task.getStartTime().format(Task.formatter) : "";
+        String startTimeStr = task.getStartTime() != null ? task.getStartTime().format(formatter) : "";
         if (task.getTaskType() == TaskType.SUBTASK) {
             str = String.join(",",
                     Integer.toString(task.getId()),

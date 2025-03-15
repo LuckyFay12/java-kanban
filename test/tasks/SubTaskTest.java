@@ -7,14 +7,12 @@ import org.junit.jupiter.api.Test;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class SubTaskTest {
     private SubTask subTask;
 
     @BeforeEach
     public void init() {
-        subTask = new SubTask("Кот", "Покормить кота", TaskStatus.IN_PROGRESS, Duration.ofMinutes(60), LocalDateTime.of(2025, 02, 03, 18, 0), 2);
+        subTask = new SubTask(0,"Кот", TaskStatus.IN_PROGRESS, "Покормить кота", Duration.ofMinutes(60), LocalDateTime.of(2025, 02, 03, 18, 0), 2);
     }
 
     @Test

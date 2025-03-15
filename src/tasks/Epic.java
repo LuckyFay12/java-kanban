@@ -2,6 +2,7 @@ package tasks;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,17 +15,18 @@ public class Epic extends Task {
         super(name, description, TaskStatus.NEW, Duration.ofMinutes(0), null);
     }
 
-    public Epic(int id, String name, TaskStatus status, String description, Duration duration, LocalDateTime startTime) {
+    public Epic(Integer id, String name, TaskStatus status, String description, Duration duration, LocalDateTime startTime) {
         super(id, name, TaskStatus.NEW, description, duration, startTime);
     }
 
-    public Epic(int id, String name, TaskStatus status, String description, Duration duration, LocalDateTime startTime, LocalDateTime endTime) {
+    public Epic(Integer id, String name, TaskStatus status, String description, Duration duration, LocalDateTime startTime, LocalDateTime endTime) {
         super(id, name, TaskStatus.NEW, description, duration, startTime);
         this.endTime = endTime;
     }
 
     @Override
     public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
         return "Epic{" +
                 "id=" + getId() +
                 ", name=" + getName() +
@@ -33,8 +35,8 @@ public class Epic extends Task {
                 ", status=" + getStatus() +
                 ", taskType=" + getTaskType() +
                 ", duration=" + duration.toMinutes() +
-                ", startTime=" + startTime.format(formatter) +
-                ", endTime=" + endTime.format(formatter) +
+                ", startTime=" + (startTime != null ? startTime.format(formatter) : "null") +
+                ", endTime=" + (endTime != null ? endTime.format(formatter) : "null") +
                 '}';
     }
 
@@ -43,7 +45,7 @@ public class Epic extends Task {
         return TaskType.EPIC;
     }
 
-    public List<Integer> getSubtasks() {
+    public List<Integer> getSubTasks() {
         return subTasksId;
     }
 

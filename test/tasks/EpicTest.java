@@ -9,8 +9,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class EpicTest {
     private Epic epic;
     private SubTask subTask1;
@@ -38,7 +36,7 @@ class EpicTest {
         List<Integer> expectedSubTasksId = new ArrayList<>();
         expectedSubTasksId.add(subTask1.getId());
         expectedSubTasksId.add(subTask2.getId());
-        List<Integer> actualSubTasksId = epic.getSubtasks();
+        List<Integer> actualSubTasksId = epic.getSubTasks();
         Assertions.assertEquals(expectedSubTasksId, actualSubTasksId);
     }
 
@@ -49,7 +47,7 @@ class EpicTest {
         List<Integer> expected = new ArrayList<>();
         expected.add(subTask1.getId());
         epic.delSubTask(subTask2.getId());
-        List<Integer> actually = epic.getSubtasks();
+        List<Integer> actually = epic.getSubTasks();
         Assertions.assertEquals(expected, actually);
     }
 }
