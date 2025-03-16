@@ -3,12 +3,12 @@ package http;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import exceptions.CollisionTaskTimeException;
+import exceptions.PrimeNumberException;
 import exceptions.TaskNotFoundException;
 import manager.TaskManager;
 import tasks.Task;
 
 import java.io.IOException;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -35,6 +35,8 @@ public class HttpTaskHandler extends BaseHttpHandler {
                 default:
                     sendErrorResponse(exchange, 405, String.format("Обработка метода %s не предусмотрена", method));
             }
+        } catch (PrimeNumberException e) {
+            sendErrorResponse(exchange, 400, e.getMessage());
         } catch (TaskNotFoundException e) {
             sendErrorResponse(exchange, 404, e.getMessage());
         } catch (CollisionTaskTimeException e) {
@@ -47,9 +49,7 @@ public class HttpTaskHandler extends BaseHttpHandler {
     }
 
     private void handleGet(HttpExchange exchange) throws IOException {
-        URI requestUri = exchange.getRequestURI();
-        String path = requestUri.getPath();
-        String[] urlParts = path.split("/");
+        String[] urlParts = getPathParts(exchange);
         if (urlParts.length == 2) {
             List<Task> tasks = taskManager.findAllTasks();
             String json = jsonMapper.toJson(tasks);
@@ -63,7 +63,7 @@ public class HttpTaskHandler extends BaseHttpHandler {
                 String json = jsonMapper.toJson(taskById);
                 sendText(exchange, json, 200);
             } else {
-                System.out.println("Введите целое число");
+                throw new PrimeNumberException("Введите простое число");
             }
         }
     }
@@ -93,9 +93,7 @@ public class HttpTaskHandler extends BaseHttpHandler {
     }
 
     private void handleDelete(HttpExchange exchange) throws IOException {
-        URI requestUri = exchange.getRequestURI();
-        String path = requestUri.getPath();
-        String[] urlParts = path.split("/");
+        String[] urlParts = getPathParts(exchange);
         Integer id = Integer.valueOf(urlParts[2]);
         Task deletedTask = taskManager.deleteTask(id);
         String json = jsonMapper.toJson(deletedTask);

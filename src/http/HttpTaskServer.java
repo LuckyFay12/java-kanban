@@ -36,12 +36,8 @@ public class HttpTaskServer {
 
     private void registerHandlers() {
         httpServer.createContext("/tasks", new HttpTaskHandler(taskManager, jsonMapper));
-        httpServer.createContext("/tasks/1", new HttpTaskHandler(taskManager, jsonMapper));
         httpServer.createContext("/subtasks", new HttpSubTaskHandler(taskManager, jsonMapper));
-        httpServer.createContext("/subtasks/1", new HttpSubTaskHandler(taskManager, jsonMapper));
         httpServer.createContext("/epics", new HttpEpicHandler(taskManager, jsonMapper));
-        httpServer.createContext("/epics/1", new HttpEpicHandler(taskManager, jsonMapper));
-        httpServer.createContext("/epics/1/subtasks", new HttpEpicHandler(taskManager, jsonMapper));
         httpServer.createContext("/prioritized", new HttpPrioritizedTasksHandler(taskManager, jsonMapper));
         httpServer.createContext("/history", new HttpHistoryHandler(taskManager, jsonMapper));
     }

@@ -3,6 +3,7 @@ package http;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import exceptions.CollisionTaskTimeException;
+import exceptions.PrimeNumberException;
 import exceptions.TaskNotFoundException;
 import manager.TaskManager;
 import tasks.Epic;
@@ -10,7 +11,6 @@ import tasks.SubTask;
 import tasks.Task;
 
 import java.io.IOException;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -37,6 +37,8 @@ public class HttpSubTaskHandler extends BaseHttpHandler {
                 default:
                     sendErrorResponse(exchange, 405, String.format("Обработка метода %s не предусмотрена", method));
             }
+        } catch (PrimeNumberException e) {
+            sendErrorResponse(exchange, 400, e.getMessage());
         } catch (TaskNotFoundException e) {
             sendErrorResponse(exchange, 404, e.getMessage());
         } catch (CollisionTaskTimeException e) {
@@ -49,9 +51,7 @@ public class HttpSubTaskHandler extends BaseHttpHandler {
     }
 
     private void handleGet(HttpExchange exchange) throws IOException {
-        URI requestUri = exchange.getRequestURI();
-        String path = requestUri.getPath();
-        String[] urlParts = path.split("/");
+        String[] urlParts = getPathParts(exchange);
         if (urlParts.length == 2) {
             List<SubTask> subTasks = taskManager.findAllSubTasks();
             String json = jsonMapper.toJson(subTasks);
@@ -65,7 +65,7 @@ public class HttpSubTaskHandler extends BaseHttpHandler {
                 String json = jsonMapper.toJson(subTaskById);
                 sendText(exchange, json, 200);
             } else {
-                System.out.println("Введите целое число");
+                throw new PrimeNumberException("Введите простое число");
             }
         }
     }
@@ -97,9 +97,7 @@ public class HttpSubTaskHandler extends BaseHttpHandler {
     }
 
     private void handleDelete(HttpExchange exchange) throws IOException {
-        URI requestUri = exchange.getRequestURI();
-        String path = requestUri.getPath();
-        String[] urlParts = path.split("/");
+        String[] urlParts = getPathParts(exchange);
         Integer id = Integer.valueOf(urlParts[2]);
         SubTask deletedSubTask = taskManager.deleteSubTaskById(id);
         String json = jsonMapper.toJson(deletedSubTask);

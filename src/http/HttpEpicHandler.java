@@ -2,13 +2,13 @@ package http;
 
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
+import exceptions.PrimeNumberException;
 import exceptions.TaskNotFoundException;
 import manager.TaskManager;
 import tasks.Epic;
 import tasks.SubTask;
 
 import java.io.IOException;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -35,6 +35,8 @@ public class HttpEpicHandler extends BaseHttpHandler {
                 default:
                     sendErrorResponse(exchange, 405, String.format("Обработка метода %s не предусмотрена", method));
             }
+        } catch (PrimeNumberException e) {
+            sendErrorResponse(exchange, 400, e.getMessage());
         } catch (TaskNotFoundException e) {
             sendErrorResponse(exchange, 404, e.getMessage());
         } catch (Exception e) {
@@ -45,9 +47,7 @@ public class HttpEpicHandler extends BaseHttpHandler {
     }
 
     private void handleGet(HttpExchange exchange) throws IOException {
-        URI requestUri = exchange.getRequestURI();
-        String path = requestUri.getPath();
-        String[] urlParts = path.split("/");
+        String[] urlParts = getPathParts(exchange);
         if (urlParts.length == 2) {
             List<Epic> epics = taskManager.findAllEpics();
             String json = jsonMapper.toJson(epics);
@@ -61,7 +61,7 @@ public class HttpEpicHandler extends BaseHttpHandler {
                 String json = jsonMapper.toJson(epicById);
                 sendText(exchange, json, 200);
             } else {
-                System.out.println("Введите целое число");
+                throw new PrimeNumberException("Введите простое число");
             }
         } else {
             String idStr = urlParts[2];
@@ -93,9 +93,7 @@ public class HttpEpicHandler extends BaseHttpHandler {
     }
 
     private void handleDelete(HttpExchange exchange) throws IOException {
-        URI requestUri = exchange.getRequestURI();
-        String path = requestUri.getPath();
-        String[] urlParts = path.split("/");
+        String[] urlParts = getPathParts(exchange);
         Integer id = Integer.valueOf(urlParts[2]);
         Epic deletedEpic = taskManager.deleteEpic(id);
         String json = jsonMapper.toJson(deletedEpic);
