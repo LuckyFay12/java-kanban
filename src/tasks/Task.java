@@ -6,14 +6,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Task {
-    private int id;
+    private Integer id;
     private String name;
     private String description;
     protected TaskStatus status;
     protected Duration duration;
     protected LocalDateTime startTime;
-
-    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
     public Task(String name, String description, TaskStatus status, Duration duration, LocalDateTime startTime) {
         this.name = name;
@@ -23,7 +21,7 @@ public class Task {
         this.startTime = startTime;
     }
 
-    public Task(int id, String name, TaskStatus status, String description, Duration duration, LocalDateTime startTime) {
+    public Task(Integer id, String name, TaskStatus status, String description, Duration duration, LocalDateTime startTime) {
         this.id = id;
         this.name = name;
         this.status = status;
@@ -34,10 +32,11 @@ public class Task {
 
     @Override
     public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
         return "Task{" +
-                "description='" + description + '\'' +
-                ", id=" + id +
+                "id=" + id +
                 ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
                 ", status=" + status +
                 ", taskType=" + getTaskType() +
                 ", duration=" + duration.toMinutes() +
@@ -67,11 +66,11 @@ public class Task {
         this.description = description;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

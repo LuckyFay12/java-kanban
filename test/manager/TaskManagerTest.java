@@ -170,8 +170,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void testDeleteAllSubtasks() {
         Epic epic = new Epic("Салат", "Нарезать овощи");
-        SubTask subTask = new SubTask("Овощи", "Сварить морковь и картофель", TaskStatus.IN_PROGRESS, Duration.ofMinutes(60), LocalDateTime.of(2025, 02, 03, 18, 0), epic.getId());
         taskManager.createEpic(epic);
+        SubTask subTask = new SubTask("Овощи", "Сварить морковь и картофель", TaskStatus.IN_PROGRESS, Duration.ofMinutes(60), LocalDateTime.of(2025, 02, 03, 18, 0), epic.getId());
         taskManager.createSubTask(subTask, epic);
         taskManager.deleteAllSubtasks();
 
@@ -198,8 +198,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void updateSubTaskName() {
         Epic epic = new Epic("Салат", "Нарезать овощи");
-        SubTask subTask = new SubTask("Овощи", "Сварить морковь и картофель", TaskStatus.IN_PROGRESS, Duration.ofMinutes(60), LocalDateTime.of(2025, 02, 03, 18, 0), epic.getId());
         taskManager.createEpic(epic);
+        SubTask subTask = new SubTask("Овощи", "Сварить морковь и картофель", TaskStatus.IN_PROGRESS, Duration.ofMinutes(60), LocalDateTime.of(2025, 02, 03, 18, 0), epic.getId());
         taskManager.createSubTask(subTask, epic);
         subTask.setName("Морковь");
         taskManager.updateEpic(epic);
@@ -210,9 +210,9 @@ abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void testFindAllSubTasks() {
         Epic epic = new Epic("Елка", "Нарядить елку");
+        taskManager.createEpic(epic);
         SubTask subTask1 = new SubTask("Игрушки", "Купить игрушки на елку", TaskStatus.IN_PROGRESS, Duration.ofMinutes(30), LocalDateTime.of(2025, 02, 03, 18, 0), epic.getId());
         SubTask subTask2 = new SubTask("Кот", "Закрыть в комнате, чтобы не мешался", TaskStatus.NEW, Duration.ofMinutes(30), LocalDateTime.of(2025, 02, 03, 19, 0), epic.getId());
-        taskManager.createEpic(epic);
         taskManager.createSubTask(subTask1, epic);
         taskManager.createSubTask(subTask2, epic);
         ArrayList<Task> subTasks = new ArrayList<>(taskManager.findAllSubTasks());
@@ -233,9 +233,9 @@ abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void testDeleteSubTaskById() {
         Epic epic = new Epic("Елка", "Нарядить елку");
+        taskManager.createEpic(epic);
         SubTask subTask1 = new SubTask("Игрушки", "Купить игрушки на елку", TaskStatus.IN_PROGRESS, Duration.ofMinutes(30), LocalDateTime.of(2025, 02, 03, 18, 0), epic.getId());
         SubTask subTask2 = new SubTask("Кот", "Закрыть в комнате, чтобы не мешался", TaskStatus.NEW, Duration.ofMinutes(30), LocalDateTime.of(2025, 02, 03, 19, 0), epic.getId());
-        taskManager.createEpic(epic);
         taskManager.createSubTask(subTask1, epic);
         taskManager.createSubTask(subTask2, epic);
         ArrayList<SubTask> subTasksBeforeDelete = new ArrayList<>(taskManager.findAllSubTasks());
@@ -250,13 +250,13 @@ abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void testGetSubTasksByEpicById() {
         Epic epic = new Epic("Елка", "Нарядить елку");
+        taskManager.createEpic(epic);
         SubTask subTask1 = new SubTask("Игрушки", "Купить игрушки на елку", TaskStatus.IN_PROGRESS, Duration.ofMinutes(30), LocalDateTime.of(2025, 02, 03, 18, 0), epic.getId());
         SubTask subTask2 = new SubTask("Кот", "Закрыть в комнате, чтобы не мешался", TaskStatus.NEW, Duration.ofMinutes(30), LocalDateTime.of(2025, 02, 03, 19, 0), epic.getId());
-        taskManager.createEpic(epic);
         taskManager.createSubTask(subTask1, epic);
         taskManager.createSubTask(subTask2, epic);
         ArrayList<SubTask> subTasks = new ArrayList<>(taskManager.findAllSubTasks());
-        ArrayList<Integer> subTasksIdByEpic = new ArrayList<>(epic.getSubtasks());
+        ArrayList<Integer> subTasksIdByEpic = new ArrayList<>(epic.getSubTasks());
 
         Assertions.assertEquals(subTasks.size(), subTasksIdByEpic.size());
     }
@@ -264,8 +264,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void updateSubTaskStatus_ShouldUpdateEpicStatus() {
         Epic epic = new Epic("Елка", "Нарядить елку");
-        SubTask subTask = new SubTask("Игрушки", "Купить игрушки на елку", TaskStatus.NEW, Duration.ofMinutes(30), LocalDateTime.of(2025, 02, 03, 18, 0), epic.getId());
         taskManager.createEpic(epic);
+        SubTask subTask = new SubTask("Игрушки", "Купить игрушки на елку", TaskStatus.NEW, Duration.ofMinutes(30), LocalDateTime.of(2025, 02, 03, 18, 0), epic.getId());
         taskManager.createSubTask(subTask, epic);
         subTask.setStatus(TaskStatus.IN_PROGRESS);
         taskManager.updateSubTask(subTask);
